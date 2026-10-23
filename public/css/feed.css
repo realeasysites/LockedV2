@@ -68,7 +68,7 @@ svg{width:18px;height:18px;fill:currentColor;flex:none}
 
 /* feed */
 .feed{padding-top:22px;min-width:0}
-.chips{position:sticky;top:56px;z-index:5;display:flex;gap:8px;overflow-x:auto;padding:10px 0 12px;margin-bottom:6px;background:linear-gradient(var(--bg) 80%,rgba(13,13,12,0));scrollbar-width:none}
+.chips{position:sticky;top:56px;z-index:5;display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 12px;margin-bottom:6px;background:linear-gradient(var(--bg) 80%,rgba(13,13,12,0));scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;background:var(--card);border:1px solid var(--line2);color:var(--text);border-radius:999px;padding:8px 15px;font:500 14px var(--sans);cursor:pointer}
 .chip:hover{border-color:var(--line)}
@@ -192,6 +192,7 @@ svg{width:18px;height:18px;fill:currentColor;flex:none}
   .post{border-radius:12px;padding:14px 14px 10px}
   .ph,.ba{margin:0 -14px}
   .post-title{font-size:24px}
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin-right:-14px;padding-right:14px}
   .ph-1 .ph-i{aspect-ratio:4/5}
   .dock{display:grid;grid-template-columns:1fr 1fr 1.6fr;position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(13,13,12,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom));gap:8px}
   .dock a{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 6px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid var(--line2)}
