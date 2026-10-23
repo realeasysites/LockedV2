@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Locked &amp; Level Dashboard</title>
+<style>
+[hidden]{display:none!important}
+*{box-sizing:border-box}body{margin:0;background:#f4f2ed;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#111;font-size:15px}
+header{background:#0d0d0c;color:#fff;padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header img{height:36px;border-radius:8px}header h1{font-size:18px;margin:0;flex:1}
+header a{color:#e3c68b;font-weight:700;text-decoration:none;font-size:14px}
+main{max-width:860px;margin:0 auto;padding:18px}
+.tabs{display:flex;gap:6px;margin:0 0 18px;border-bottom:2px solid #0d0d0c;flex-wrap:wrap}
+.tabs button{padding:10px 16px;border:0;background:none;font:inherit;font-weight:700;cursor:pointer;border-radius:8px 8px 0 0}
+.tabs button.on{background:#0d0d0c;color:#fff}
+.badge{display:inline-block;min-width:20px;padding:1px 6px;border-radius:10px;background:#c9a45c;color:#000;font-size:12px;margin-left:6px}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px}
+.composer{border:2px solid #c9a45c}
+.composer h2{margin:0 0 4px;font-size:18px}.composer p.hint{margin:0 0 12px;color:#666;font-size:14px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:10px}
+input[type=text],textarea,select{font:inherit;font-size:15px;padding:10px;border:1px solid #bbb;border-radius:8px;text-transform:none;color:#111;font-weight:400;width:100%}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kinds{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.kinds label{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #ccc;border-radius:999px;cursor:pointer;font-weight:600;font-size:14px}
+.kinds input{accent-color:#0d0d0c}
+.kinds label:has(input:checked){background:#0d0d0c;color:#fff;border-color:#0d0d0c}
+.drop{display:block;border:2px dashed #bbb;border-radius:12px;padding:18px;text-align:center;cursor:pointer;color:#555;position:relative;margin-bottom:10px;background:#faf9f6}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.drop.over{border-color:#c9a45c;background:#fff8e6}
+.thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.thumbs img{width:76px;height:76px;object-fit:cover;border-radius:8px}
+.btn{padding:10px 16px;border-radius:8px;border:1px solid #bbb;background:#fff;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;color:#111;font-size:14px}
+.btn.gold{background:#c9a45c;border-color:#c9a45c}.btn.dark{background:#0d0d0c;color:#fff;border-color:#0d0d0c}
+.btn:disabled{opacity:.6}
+.msg{font-weight:600;margin-left:8px}.msg.err{color:#c0221d}.msg.ok{color:#1a7f3c}
+.post{display:grid;grid-template-columns:96px 1fr;gap:14px}
+.post .th{width:96px;height:96px;border-radius:10px;object-fit:cover;background:#eee;display:flex;align-items:center;justify-content:center;font-size:12px;color:#888;text-align:center}
+.post h3{margin:0;font-size:16px}.meta{color:#777;font-size:13px;margin:2px 0 6px}
+.post p{margin:0 0 8px;font-size:14px;color:#333}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;background:#eee;margin-left:6px;vertical-align:middle}
+.pill.gold{background:#c9a45c}
+.acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.acts button,.acts a,.acts select{padding:7px 11px;border-radius:8px;border:1px solid #ccc;background:#fff;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;color:#111;text-decoration:none}
+.acts .del{border-color:#e23b24;color:#c0221d;margin-left:auto}
+.edit{grid-column:1/-1;border-top:1px solid #eee;padding-top:10px;margin-top:4px}
+.lead{border-left:6px solid #c9a45c}.lead.won{border-color:#1a9c4b}.lead.lost{opacity:.75;border-color:#aaa}.lead.contacted,.lead.quoted,.lead.estimate-scheduled{border-color:#3d7be0}
+.lead h3{margin:0;font-size:17px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px 14px;font-size:14px;margin:8px 0}.kv small{display:block;color:#888;font-size:11px;text-transform:uppercase}
+.details{background:#f7f5ee;border-radius:8px;padding:10px;font-size:14px;white-space:pre-wrap;margin-bottom:10px}
+textarea.notes{margin-top:8px;font-size:14px}
+.bar{display:flex;gap:10px;align-items:center;margin:0 0 12px;flex-wrap:wrap}.bar h2{margin:0;font-size:18px;flex:1}
+.bar select,.bar a{padding:8px 12px;border-radius:8px;border:1px solid #bbb;background:#fff;font:inherit;font-weight:600;color:#111;text-decoration:none;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.stat{background:#fff;border-radius:12px;padding:14px}.stat b{display:block;font-size:28px}.stat span{font-size:12px;color:#666;text-transform:uppercase}
+.panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.panel{background:#fff;border-radius:12px;padding:14px}.panel h3{margin:0 0 8px;font-size:13px;text-transform:uppercase;color:#666}
+.panel li{display:flex;justify-content:space-between;padding:3px 0;font-size:14px;list-style:none}.panel ul{margin:0;padding:0}
+.empty{text-align:center;color:#777;padding:30px;background:#fff;border-radius:12px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#0d0d0c;color:#fff;padding:10px 16px;border-radius:8px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media (max-width:640px){.row{grid-template-columns:1fr}.post{grid-template-columns:72px 1fr}.post .th{width:72px;height:72px}}
+</style></head><body>
+<header><img src="/img/avatar.jpg" alt=""><h1>Locked &amp; Level dashboard</h1><a href="/" target="_blank">View site</a><a href="/admin/logout">Sign out</a></header>
+<main>
+<nav class="tabs" id="tabs">
+  <button data-v="posts" class="on">Posts</button>
+  <button data-v="leads">Estimate requests <span class="badge" id="newBadge" hidden></span></button>
+  <button data-v="traffic">Traffic</button>
+</nav>
+
+<section id="v-posts">
+  <form class="card composer" id="composer">
+    <h2>New post</h2>
+    <p class="hint">Show off a finished job. It goes to the top of your website right away.</p>
+    <div class="kinds">
+      <label><input type="radio" name="kind" value="job" checked> Job photos</label>
+      <label><input type="radio" name="kind" value="beforeafter"> Before &amp; after</label>
+      <label><input type="radio" name="kind" value="note"> Announcement</label>
+    </div>
+    <label class="drop" id="drop"><input type="file" name="photos" id="photos" accept="image/*" multiple><span id="dropTxt">Tap to add photos (up to 10)</span></label>
+    <div class="thumbs" id="thumbs"></div>
+    <div class="row">
+      <label class="f">Title<input type="text" name="title" maxlength="140" placeholder="Walk-in shower with marble niche"></label>
+      <label class="f">Category<select name="category" id="catSel"></select></label>
+    </div>
+    <label class="f">Caption<textarea name="body" rows="3" maxlength="2000" placeholder="What did you do? Tile type, room, anything special."></textarea></label>
+    <label style="display:flex;gap:8px;align-items:center;margin-bottom:12px"><input type="checkbox" name="pinned" value="1"> Pin to the top</label>
+    <button class="btn gold" type="submit" id="postBtn">Post it</button><span class="msg" id="postMsg"></span>
+  </form>
+  <div class="bar"><h2>Your posts <span id="postCount"></span></h2></div>
+  <div id="posts"></div>
+</section>
+
+<section id="v-leads" hidden>
+  <div class="bar"><h2>Estimate requests <span id="leadCount"></span></h2>
+    <select id="filter"><option value="">All</option></select>
+    <a href="/admin/api/export.csv">Export CSV</a></div>
+  <div id="leads"></div>
+</section>
+
+<section id="v-traffic" hidden>
+  <div class="bar"><h2>Traffic</h2><select id="range"><option value="d7">Last 7 days</option><option value="d30">Last 30 days</option><option value="d90">Last 90 days</option></select></div>
+  <div class="stats" id="stats"></div><div class="panels" id="panels"></div>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+var $=function(s,c){return(c||document).querySelector(s)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('on')},2200)}
+function api(p,o){return fetch('/admin/api'+p,Object.assign({credentials:'same-origin'},o||{})).then(function(r){if(r.status===401){location.reload();throw 0}return r.json()})}
+function J(m,b){return{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}}
+$('#tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});
+  ['posts','leads','traffic'].forEach(function(v){$('#v-'+v).hidden=v!==b.getAttribute('data-v')})});
+
+/* ---------- posts ---------- */
+var POSTS=[],CATS=[];var comp=$('#composer'),files=$('#photos');
+function kind(){return(comp.querySelector('input[name=kind]:checked')||{}).value}
+function showThumbs(){var t=$('#thumbs');t.innerHTML='';[].forEach.call(files.files,function(f){var i=document.createElement('img');i.src=URL.createObjectURL(f);t.appendChild(i)});
+  var n=files.files.length;$('#dropTxt').textContent=n?n+' photo'+(n>1?'s':'')+' ready. Tap to change.':(kind()==='beforeafter'?'Add 2 photos: before first, then after':'Tap to add photos (up to 10)')}
+files.addEventListener('change',showThumbs);
+comp.addEventListener('change',function(e){if(e.target.name==='kind')showThumbs()});
+['dragenter','dragover'].forEach(function(v){$('#drop').addEventListener(v,function(e){e.preventDefault();this.classList.add('over')})});
+['dragleave','drop'].forEach(function(v){$('#drop').addEventListener(v,function(e){e.preventDefault();this.classList.remove('over')})});
+$('#drop').addEventListener('drop',function(e){if(e.dataTransfer.files.length){files.files=e.dataTransfer.files;showThumbs()}});
+comp.addEventListener('submit',function(e){e.preventDefault();var m=$('#postMsg');m.className='msg';m.textContent='';
+  if(kind()==='beforeafter'&&files.files.length!==2){m.className='msg err';m.textContent='Pick exactly 2 photos: before, then after.';return}
+  var fd=new FormData(comp);var b=$('#postBtn');b.disabled=true;b.textContent='Posting…';
+  api('/posts',{method:'POST',body:fd}).then(function(r){if(r.ok){comp.reset();showThumbs();toast('Posted. It\'s live on your site.');loadPosts()}else{m.className='msg err';m.textContent=r.error||'Could not post.'}})
+  .catch(function(){m.className='msg err';m.textContent='Upload failed. Check your connection.'}).then(function(){b.disabled=false;b.textContent='Post it'})});
+
+function loadPosts(){return api('/posts').then(function(d){POSTS=d.posts;CATS=d.categories;
+  $('#catSel').innerHTML='<option value="">No category</option>'+CATS.map(function(c){return'<option>'+esc(c)+'</option>'}).join('');renderPosts()})}
+function renderPosts(){$('#postCount').textContent='('+POSTS.length+')';
+  if(!POSTS.length){$('#posts').innerHTML='<div class="empty">No posts yet.</div>';return}
+  var K={job:'Job photos',beforeafter:'Before & after',note:'Announcement',follow:'Facebook follow card'};
+  $('#posts').innerHTML=POSTS.map(function(p){var ph=p.photos[0];
+  return'<div class="card post" data-id="'+p.id+'">'+(ph?'<img class="th" src="'+esc(ph.src)+'" alt="">':'<div class="th">'+esc(K[p.kind]||'')+'</div>')
+  +'<div><h3>'+esc(p.title||K[p.kind])+(p.pinned?'<span class="pill gold">Pinned</span>':'')+(p.hidden?'<span class="pill">Hidden</span>':'')+'</h3>'
+  +'<div class="meta">'+esc(K[p.kind])+(p.category?' · '+esc(p.category):'')+' · '+p.photos.length+' photo'+(p.photos.length===1?'':'s')+(p.show_date?' · posted '+esc(p.created_at.slice(0,10)):'')+'</div>'
+  +(p.body?'<p>'+esc(p.body.length>160?p.body.slice(0,160)+'…':p.body)+'</p>':'')
+  +'<div class="acts">'+(p.kind!=='follow'&&p.kind!=='note'?'<button data-a="copy">Copy link</button><a href="'+esc(p.url)+'" target="_blank">View</a>':'')
+  +'<button data-a="edit">Edit</button><button data-a="pin">'+(p.pinned?'Unpin':'Pin')+'</button><button data-a="top">Move to top</button><button data-a="hide">'+(p.hidden?'Show':'Hide')+'</button><button class="del" data-a="del">Delete</button></div></div>'
+  +'<div class="edit" hidden><div class="row"><label class="f">Title<input type="text" data-e="title" value="'+esc(p.title||'')+'"></label><label class="f">Category<select data-e="category"><option value="">No category</option>'+CATS.map(function(c){return'<option'+(c===p.category?' selected':'')+'>'+esc(c)+'</option>'}).join('')+'</select></label></div>'
+  +'<label class="f">Caption<textarea rows="3" data-e="body">'+esc(p.body||'')+'</textarea></label><button class="btn dark" data-a="save">Save</button> <button class="btn" data-a="cancel">Cancel</button></div></div>'}).join('')}
+$('#posts').addEventListener('click',function(e){var a=e.target.getAttribute('data-a');if(!a)return;var c=e.target.closest('.post'),id=c.getAttribute('data-id');var p=POSTS.filter(function(x){return String(x.id)===id})[0];
+  var patch=function(b,msg){api('/posts/'+id,J('PATCH',b)).then(function(){toast(msg);loadPosts()})};
+  if(a==='copy'){(navigator.clipboard?navigator.clipboard.writeText(p.url):Promise.reject()).then(function(){toast('Link copied. Paste it in a post.')},function(){prompt('Copy this link:',p.url)})}
+  if(a==='edit'){$('.edit',c).hidden=false}
+  if(a==='cancel'){$('.edit',c).hidden=true}
+  if(a==='save'){patch({title:$('[data-e=title]',c).value,category:$('[data-e=category]',c).value,body:$('[data-e=body]',c).value},'Saved')}
+  if(a==='pin')patch({pinned:!p.pinned},p.pinned?'Unpinned':'Pinned to the top');
+  if(a==='top')patch({toTop:true},'Moved to the top');
+  if(a==='hide')patch({hidden:!p.hidden},p.hidden?'Showing on the site':'Hidden from the site');
+  if(a==='del'){if(!confirm('Delete this post and its photos? This cannot be undone.'))return;api('/posts/'+id,{method:'DELETE'}).then(function(){toast('Deleted');loadPosts()})}});
+
+/* ---------- estimate requests ---------- */
+var LEADS=[],ST=[];
+function loadLeads(){api('/leads').then(function(d){LEADS=d.leads;ST=d.statuses;
+  $('#filter').innerHTML='<option value="">All</option>'+ST.map(function(s){return'<option>'+esc(s)+'</option>'}).join('');
+  var n=LEADS.filter(function(l){return l.status==='new'}).length;$('#newBadge').hidden=!n;$('#newBadge').textContent=n;renderLeads()})}
+function renderLeads(){var f=$('#filter').value;var rows=LEADS.filter(function(l){return!f||l.status===f});$('#leadCount').textContent='('+rows.length+')';
+  if(!rows.length){$('#leads').innerHTML='<div class="empty">No requests yet.</div>';return}
+  $('#leads').innerHTML=rows.map(function(l){var ph=String(l.phone).replace(/[^\d+]/g,'');function kv(k,v){return v?'<div><small>'+k+'</small>'+esc(v)+'</div>':''}
+  return'<div class="card lead '+esc(l.status.replace(/ /g,'-'))+'" data-id="'+l.id+'"><h3>'+esc(l.name)+'</h3><div class="meta">'+esc(l.created_at)+' UTC · via '+esc(l.source||'direct')+'</div>'
+  +'<div class="kv">'+kv('Phone',l.phone)+kv('Email',l.email)+kv('Town',l.town)+kv('Project',l.project_type)+kv('Timing',l.timeline)+kv('Reach by',l.contact_pref)+kv('Saw this post',l.ref_post)+'</div>'
+  +(l.details?'<div class="details">'+esc(l.details)+'</div>':'')
+  +'<div class="acts"><a href="tel:'+esc(ph)+'">Call</a><a href="sms:'+esc(ph)+'">Text</a>'+(l.email?'<a href="mailto:'+esc(l.email)+'">Email</a>':'')
+  +'<select data-a="status">'+ST.map(function(s){return'<option'+(s===l.status?' selected':'')+'>'+esc(s)+'</option>'}).join('')+'</select><button class="del" data-a="del">Delete</button></div>'
+  +'<textarea class="notes" rows="2" placeholder="Notes (saves when you click away)" data-a="notes">'+esc(l.notes||'')+'</textarea></div>'}).join('')}
+$('#filter').addEventListener('change',renderLeads);
+var lb=$('#leads');function lid(el){return el.closest('.lead').getAttribute('data-id')}
+lb.addEventListener('change',function(e){if(e.target.getAttribute('data-a')==='status'){api('/leads/'+lid(e.target),J('PATCH',{status:e.target.value})).then(loadLeads)}});
+lb.addEventListener('focusout',function(e){if(e.target.getAttribute('data-a')==='notes'){var id=lid(e.target);api('/leads/'+id,J('PATCH',{notes:e.target.value}));LEADS.forEach(function(l){if(String(l.id)===id)l.notes=e.target.value})}});
+lb.addEventListener('click',function(e){if(e.target.getAttribute('data-a')==='del'){if(!confirm('Delete this request permanently? This cannot be undone.'))return;api('/leads/'+lid(e.target),{method:'DELETE'}).then(loadLeads)}});
+
+/* ---------- traffic ---------- */
+var STATS=null;
+function renderStats(){if(!STATS)return;var s=STATS[$('#range').value];
+  var items=[['Visitors',s.visitors],['Page views',s.views],['Calls tapped',s.calls],['Texts tapped',s.texts],['Estimate requests',s.leads],['Contact rate',s.contactRate+'%']];
+  $('#stats').innerHTML=items.map(function(i){return'<div class="stat"><b>'+esc(i[1])+'</b><span>'+i[0]+'</span></div>'}).join('');
+  function list(t,a,k){return'<div class="panel"><h3>'+t+'</h3><ul>'+(a.length?a.map(function(x){return'<li><span>'+esc(x[k])+'</span><b>'+x.n+'</b></li>'}).join(''):'<li>No data yet</li>')+'</ul></div>'}
+  $('#panels').innerHTML=list('Traffic sources',s.sources,'source')+list('Top pages',s.pages,'path')+list('Devices',s.devices,'device')}
+$('#range').addEventListener('change',renderStats);
+loadPosts();loadLeads();api('/stats').then(function(d){STATS=d;renderStats()});
+</script></body></html>

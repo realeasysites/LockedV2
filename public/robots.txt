@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /sa/
+
+Sitemap: https://lockedandlevel.com/sitemap.xml
